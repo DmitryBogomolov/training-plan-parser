@@ -91,18 +91,18 @@ func formatWeights(weights []common.Weight) string {
 	return strings.Join(items, "")
 }
 
-type formatter interface {
-	format() string
-}
-
 func formatRatioCell(item interface{}) string {
-	cell := common.ParseRatioSet(item)
-	return fmt.Sprintf(`<td class="set">%.0f%% %d / %d</td>`, cell.Ratio*100, cell.Count, cell.Weight)
+	data := item.(map[string]interface{})
+	ratio := data["ratio"].(float64) * 100
+	count := int(data["count"].(float64))
+	weight := int(data["weight"].(float64))
+	return fmt.Sprintf(`<td class="set">%.0f%% %d / %d</td>`, ratio, count, weight)
 }
 
 func formatSimpleCell(item interface{}) string {
-	cell := common.ParseSimpleSet(item)
-	return fmt.Sprintf(`<td class="set">%d</td>`, cell.Count)
+	data := item.(map[string]interface{})
+	count := (int)(data["count"].(float64))
+	return fmt.Sprintf(`<td class="set">%d</td>`, count)
 }
 
 func formatRow(name string, sets []interface{}, formatCell formatCellHandler) string {

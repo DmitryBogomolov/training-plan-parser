@@ -30,8 +30,6 @@ type Handler func(string) (string, error)
 
 func Process(f Handler) {
 	content, err := readStdin()
-	// data, err := ioutil.ReadFile("../sample.json")
-	// content := string(data)
 	if err != nil {
 		os.Stderr.WriteString(err.Error())
 		return
@@ -55,24 +53,8 @@ type RatioSet struct {
 	Count  int     `json:"count,omitempty"`
 }
 
-func ParseRatioSet(data interface{}) *RatioSet {
-	obj := data.(map[string]interface{})
-	return &RatioSet{
-		Ratio:  obj["ratio"].(float64),
-		Weight: int(obj["weight"].(float64)),
-		Count:  int(obj["count"].(float64)),
-	}
-}
-
 type SimpleSet struct {
 	Count int `json:"count,omitempty"`
-}
-
-func ParseSimpleSet(data interface{}) *SimpleSet {
-	obj := data.(map[string]interface{})
-	return &SimpleSet{
-		Count: int(obj["count"].(float64)),
-	}
 }
 
 type Exercise struct {
