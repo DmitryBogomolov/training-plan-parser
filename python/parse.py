@@ -90,7 +90,7 @@ def extract_exercise_by_simple_pattern(line):
     name = check_pattern(line, SIMPLE_EXERCISE_PATTERN)
     if not name:
         return None
-    reps, count = re.search(SIMPLE_EXERCISE_PATTERN, line).groups()
+    count, reps = re.search(SIMPLE_EXERCISE_PATTERN, line).groups()
     sets = []
     obj = {
         'count': int(reps)
