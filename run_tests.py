@@ -1,0 +1,7 @@
+#!/usr/bin/env python3
+
+import unittest
+
+suite = unittest.defaultTestLoader.discover('.', pattern='*_test.py')
+runner = unittest.TextTestRunner(verbosity=2)
+runner.run(suite)
