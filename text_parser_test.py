@@ -19,7 +19,7 @@ Ex: 2-1 50% 6x1, 60% 6x2, 65% 6x4
 Ex: 2-2 10x5
 
  * Day 3
-Ex: 3-1 5x5 3x2
+Ex: 3-1 5x5 3x2 2x4
 
 '''
 
@@ -73,5 +73,21 @@ class TextParserTests(unittest.TestCase):
         self.assertEqual(len(exercises), 1, 'day 1 exercises')
         self.assertEqual(exercises[0], text_parser.Exercise(
             'Ex: 3-1',
-            [sim(5, 5), sim(3, 2)],
+            [sim(5, 5), sim(3, 2), sim(2, 4)],
         ))
+
+    def test_render_title(self):
+        plan = text_parser.Plan('Test Title', [], [])
+        page = text_parser.render(plan)
+
+        self.assertIn('<td class="title" colspan="11">Test Title</td>', page)
+
+    def test_render_weights(self):
+        plan = text_parser.Plan('', [
+            text_parser.WeightInfo('Ex 1', 10),
+            text_parser.WeightInfo('Ex 2', 20),
+        ], [])
+        page = text_parser.render(plan)
+
+        self.assertIn('<td class="set">Ex 1</td><td class="set">10</td>', page)
+        self.assertIn('<td class="set">Ex 2</td><td class="set">20</td>', page)
