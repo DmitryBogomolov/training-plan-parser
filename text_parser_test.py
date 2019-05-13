@@ -83,7 +83,7 @@ class TextParserTests(unittest.TestCase):
         self.assertIn('<td class="title" colspan="11">Test Title</td>', page)
 
     def test_render_weights(self):
-        plan = text_parser.Plan('', [
+        plan = text_parser.Plan('Title', [
             text_parser.WeightInfo('Ex 1', 10),
             text_parser.WeightInfo('Ex 2', 20),
         ], [])
@@ -91,3 +91,58 @@ class TextParserTests(unittest.TestCase):
 
         self.assertIn('<td class="set">Ex 1</td><td class="set">10</td>', page)
         self.assertIn('<td class="set">Ex 2</td><td class="set">20</td>', page)
+
+    def test_render_day_title(self):
+        plan = text_parser.Plan('Title', [], [
+            text_parser.Day('Day 1', []),
+            text_parser.Day('Day 2', []),
+        ])
+        page = text_parser.render(plan)
+
+        self.assertEqual(page.count('<tr><td colspan="11">&nbsp;</td></tr>'), 2)
+        self.assertIn('<tr><td class="day" colspan="11">Day 1</td></tr>', page)
+        self.assertIn('<tr><td class="day" colspan="11">Day 2</td></tr>', page)
+
+    def test_render_simple_exercises(self):
+        plan = text_parser.Plan('Title', [], [
+            text_parser.Day('Day', [
+                text_parser.Exercise('Ex 1', [
+                    text_parser.SimpleSetBlock(4, 3),
+                    text_parser.SimpleSetBlock(3, 2),
+                ]),
+            ])
+        ])
+        page = text_parser.render(plan)
+
+        rows = '<td class="set">4</td>' * 3 + '<td class="set">3</td>' * 2 + '<td></td>' * 5
+        self.assertIn('<tr><td class="exercise">Ex 1</td>' + rows + '</tr>', page)
+
+    def test_render_multiline_exercises(self):
+        plan = text_parser.Plan('Title', [], [
+            text_parser.Day('Day', [
+                text_parser.Exercise('Ex 1', [
+                    text_parser.SimpleSetBlock(5, 8),
+                    text_parser.SimpleSetBlock(4, 5),
+                ]),
+            ])
+        ])
+        page = text_parser.render(plan)
+
+        rows = '<td class="set">5</td>' * 8 + '<td class="set">4</td>' * 2
+        self.assertIn('<tr><td class="exercise">Ex 1</td>' + rows + '</tr>', page)
+        rows = '<td class="set">4</td>' * 3 + '<td></td>' * 7
+        self.assertIn('<tr><td class="exercise"></td>' + rows + '</tr>', page)
+
+    def test_render_ratio_exercises(self):
+        plan = text_parser.Plan('Title', [text_parser.WeightInfo('Ex 1', 80)], [
+            text_parser.Day('Day', [
+                text_parser.Exercise('Ex 1', [
+                    text_parser.RatioSetBlock(0.4, 4, 3),
+                    text_parser.RatioSetBlock(0.5, 3, 2),
+                ]),
+            ])
+        ])
+        page = text_parser.render(plan)
+
+        rows = '<td class="set">40% 4 / 30</td>' * 3 + '<td class="set">50% 3 / 40</td>' * 2 + '<td></td>' * 5
+        self.assertIn('<tr><td class="exercise">Ex 1</td>' + rows + '</tr>', page)
