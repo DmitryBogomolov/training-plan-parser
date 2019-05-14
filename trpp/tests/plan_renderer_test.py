@@ -71,5 +71,6 @@ class PlanRendererTests(unittest.TestCase):
         ])
         page = render(plan)
 
-        rows = '<td class="set">40% 4 / 30</td>' * 3 + '<td class="set">50% 3 / 40</td>' * 2 + '<td></td>' * 5
+        rows = '<td class="set">40% 4 / 30</td>' * 3 + \
+            '<td class="set">50% 3 / 40</td>' * 2 + '<td></td>' * 5
         self.assertIn('<tr><td class="exercise">Ex 1</td>' + rows + '</tr>', page)

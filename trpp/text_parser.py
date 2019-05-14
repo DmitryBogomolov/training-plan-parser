@@ -5,8 +5,8 @@ from .objects import Plan, WeightInfo, Day, Exercise, SimpleSetBlock, RatioSetBl
 def split_to_parts(lines):
     anchors = []
     is_data = True
-    for i in range(len(lines)):
-        if bool(lines[i]) == is_data:
+    for i, line in enumerate(lines):
+        if bool(line) == is_data:
             anchors.append(i)
             is_data = not is_data
     if len(anchors) % 2 == 1:
