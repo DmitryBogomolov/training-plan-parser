@@ -1,3 +1,7 @@
+'''
+Internal types that represent parts of a parsed plan.
+'''
+
 from collections import namedtuple
 
 Plan = namedtuple('Plan', ('title', 'weights', 'days'))
