@@ -1,0 +1,13 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: cirlceci/python:3.7.0
+    steps:
+      - run: |
+          PATH="$HOME/.local/bin:$PATH"
+          pip install --user pylint
+      - checkout
+      - run: echo "Test"
+      - run: pylint --version
+      - run: python --version
