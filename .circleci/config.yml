@@ -4,9 +4,7 @@ jobs:
     docker:
       - image: circleci/python:3.7.0
     steps:
-      - run: |
-          PATH="$HOME/.local/bin:$PATH"
-          pip install --user pylint
+      - run: sudo pip install pylint
       - checkout
       - run: echo "Test"
       - run: pylint --version
