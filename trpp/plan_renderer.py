@@ -1,3 +1,9 @@
+'''
+Renders an instance of Plan class to a string in html format.
+
+- render
+'''
+
 from functools import partial
 from itertools import repeat, chain
 from .objects import RatioSetBlock, SimpleSetBlock
@@ -106,6 +112,7 @@ def render_day(day, weights):
     return DAY_TEMPLATE.format(title=day.title, exercises='\n'.join(exercises))
 
 def render(plan):
+    '''Renders *plan* to a string.'''
     weights = [WEIGHT_TEMPLATE.format(target=weight) for weight in plan.weights]
     days = [render_day(day, plan.weights) for day in plan.days]
     page = PAGE_TEMPLATE.format(

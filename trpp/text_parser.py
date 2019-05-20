@@ -1,3 +1,9 @@
+'''
+Parses text containing a plan. Returns instance of Plan class.
+
+- parse
+'''
+
 import os
 import re
 from .objects import Plan, WeightInfo, Day, Exercise, SimpleSetBlock, RatioSetBlock
@@ -69,6 +75,7 @@ def parse_day(lines):
     return Day(name, exercises)
 
 def parse(content):
+    '''Parses *content* string. Returns *Plan* instance.'''
     parts = split_to_parts(content.splitlines())
     if len(parts) < 3:
         raise Exception('not enough data')
