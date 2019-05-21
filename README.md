@@ -29,13 +29,12 @@ Parses training plan in text format (like in [sample](./sample.txt)) and outputs
   process_file('path/to/plan.txt')
   ```
 
-- Manage buffers manually.
+- Manage streams manually.
   ```python
   from trpp import process
 
-  with open('path/to/plan.txt', mode='rb') as input_buffer:
-      with open('path/to/plan.html', mode='wb') as output_buffer:
-          process(input_buffer, output_buffer)
+  with open('path/to/plan.txt', mode='r') as in_stream, open('path/to/plan.html', mode='w') as out_stream:
+      process(in_stream, out_stream)
   ```
 
 ## Format
