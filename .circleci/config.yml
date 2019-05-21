@@ -6,5 +6,5 @@ jobs:
     steps:
       - run: sudo pip install pylint
       - checkout
-      - run: pylint --disable=missing-docstring trpp
-      - run: ./run_tests.py
+      - run: ./run_lint
+      - run: ./run_tests
